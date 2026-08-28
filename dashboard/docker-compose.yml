@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  mqtt-broker:
+    image: eclipse-mosquitto:2.0
+    container_name: iiot-mqtt-broker
+    restart: unless-stopped
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - ./mosquitto/config/mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - ./mosquitto/data:/mosquitto/data
+      - ./mosquitto/log:/mosquitto/log
+
+  thingsboard:
+    image: thingsboard/tb-postgres:latest
+    container_name: iiot-thingsboard
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+      - "1884:1883"
+    environment:
+      TB_QUEUE_TYPE: in-memory
+    volumes:
+      - ./thingsboard-data:/data
+      - ./thingsboard-logs:/var/log/thingsboard
+    depends_on:
+      - mqtt-broker

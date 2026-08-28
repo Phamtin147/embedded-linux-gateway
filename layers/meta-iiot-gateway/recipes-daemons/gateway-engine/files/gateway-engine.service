@@ -1,0 +1,21 @@
+[Unit]
+Description=Industrial IoT Gateway Core Daemon
+After=network.target systemd-networkd.service
+Wants=network.target
+
+[Service]
+Type=notify
+ExecStart=/usr/bin/gateway-engine --config /data/config/gateway_config.json
+Restart=always
+RestartSec=5s
+WatchdogSec=30s
+NotifyAccess=all
+
+# Security Hardening
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/data /run
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

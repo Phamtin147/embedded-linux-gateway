@@ -1,0 +1,52 @@
+# Build directories (Yocto BitBake)
+build/
+downloads/
+sstate-cache/
+tmp/
+cache/
+
+# External cloned layers (via env-setup.sh)
+poky/
+meta-openembedded/
+meta-rauc/
+meta-raspberrypi/
+meta-arm/
+
+# C++ Build & IDE files
+src/gateway-engine/build/
+src/gateway-engine/cmake-build-*/
+.cache/
+compile_commands.json
+*.o
+*.a
+*.so
+*.out
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Certificates and Keys (Keep private keys untracked if generated)
+*.key
+*.pem
+!certs/dummy-ca.crt
+!layers/meta-iiot-gateway/recipes-core/rauc/files/ca.cert.pem
+
+# Local Runtime / Storage Database
+*.db
+*.db-wal
+*.db-shm
+/data/
+
+# Dashboard temporary logs/volumes
+dashboard/mosquitto/data/
+dashboard/mosquitto/log/
+dashboard/thingsboard-data/
+dashboard/thingsboard-logs/
+
+# OTA generated artifacts
+*.raucb
