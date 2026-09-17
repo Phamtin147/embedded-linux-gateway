@@ -53,3 +53,5 @@ Truy cập giao diện Web: `http://localhost:8080`
 ## 📖 Chi tiết Kỹ thuật
 - Xem toàn bộ đặc tả kỹ thuật và lộ trình 7 tuần tại [`SPECIFICATION.md`](SPECIFICATION.md).
 - Xem khối kiến thức nền tảng tại [`KNOWLEDGE.md`](KNOWLEDGE.md).
+- Xem hướng dẫn lựa chọn & phân tích phần cứng tại [`docs/hardware-selection-guide.md`](docs/hardware-selection-guide.md).
+
