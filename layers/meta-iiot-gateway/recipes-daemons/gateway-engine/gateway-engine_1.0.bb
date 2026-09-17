@@ -3,13 +3,16 @@ DESCRIPTION = "High-performance C++17 daemon for Modbus/CAN acquisition, SQLite 
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
 
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:${THISDIR}/../../../../src/gateway-engine:"
+
 SRC_URI = " \
     file://CMakeLists.txt \
-    file://config/ \
-    file://include/ \
-    file://src/ \
+    file://config \
+    file://include \
+    file://src \
     file://gateway-engine.service \
 "
+
 
 S = "${WORKDIR}"
 
