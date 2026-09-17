@@ -5,18 +5,19 @@ BRANCH="scarthgap"
 
 echo "=== [1/4] Cloning Poky Reference System ($BRANCH) ==="
 if [ ! -d "poky" ]; then
-    git clone -b $BRANCH git://git.yoctoproject.org/poky poky
+    git clone --depth 1 -b $BRANCH https://github.com/yoctoproject/poky.git poky
 fi
 
 echo "=== [2/4] Cloning meta-openembedded ($BRANCH) ==="
 if [ ! -d "meta-openembedded" ]; then
-    git clone -b $BRANCH https://github.com/openembedded/meta-openembedded.git
+    git clone --depth 1 -b $BRANCH https://github.com/openembedded/meta-openembedded.git
 fi
 
 echo "=== [3/4] Cloning meta-rauc ($BRANCH) ==="
 if [ ! -d "meta-rauc" ]; then
-    git clone -b $BRANCH https://github.com/rauc/meta-rauc.git
+    git clone --depth 1 -b $BRANCH https://github.com/rauc/meta-rauc.git
 fi
+
 
 echo "=== [4/4] Setting up Build Environment ==="
 source poky/oe-init-build-env build
