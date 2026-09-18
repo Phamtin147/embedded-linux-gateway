@@ -16,7 +16,8 @@ SRC_URI = " \
 
 S = "${WORKDIR}"
 
-inherit cmake systemd
+inherit cmake pkgconfig systemd
+
 
 DEPENDS = " \
     libmodbus \
