@@ -6,4 +6,5 @@ cd "$DIR"
 
 source poky/oe-init-build-env build
 echo "=== Starting QEMU ARM Simulation ==="
-runqemu qemuarm slirp nographic
+runqemu qemuarm iiot-gateway-image slirp nographic
+
