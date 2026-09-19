@@ -35,5 +35,6 @@ IMAGE_INSTALL += " \
 "
 
 # Image Configuration
-IMAGE_FSTYPES = "tar.bz2 wic wic.bmap ext4"
+IMAGE_FSTYPES = "tar.bz2 ext4"
 export IMAGE_BASENAME = "iiot-gateway-image"
+
