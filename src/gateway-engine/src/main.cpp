@@ -27,37 +27,60 @@ int main(int argc, char* argv[]) {
     std::signal(SIGTERM, signal_handler);
 
     std::string config_path = "/etc/gateway/gateway_config.json";
-    if (argc > 1) {
-        config_path = argv[1];
+    for (int i = 1; i < argc; ++i) {
+        std::string arg = argv[i];
+        if ((arg == "--config" || arg == "-c") && i + 1 < argc) {
+            config_path = argv[++i];
+        } else if (arg.rfind("--", 0) != 0) {
+            config_path = arg;
+        }
     }
 
     std::cout << "========================================" << std::endl;
     std::cout << " Industrial IoT Gateway Engine v1.0.0" << std::endl;
     std::cout << " Target: Embedded Linux (Yocto / QEMU)" << std::endl;
+    std::cout << " Using config: " << config_path << std::endl;
     std::cout << "========================================" << std::endl;
 
     ConfigManager config(config_path);
-    config.load();
+    if (!config.load()) {
+        std::cerr << "[Main] Warning: Failed to load config from " << config_path 
+                  << ", trying fallback /etc/gateway/gateway_config.json..." << std::endl;
+        ConfigManager fallback_config("/etc/gateway/gateway_config.json");
+        if (fallback_config.load()) {
+            config = std::move(fallback_config);
+        } else {
+            std::cerr << "[Main] Error: Could not load any valid configuration!" << std::endl;
+        }
+    }
 
-    StorageManager storage(config.get_string("db_path", "/data/gateway.db"));
-    storage.init();
+    try {
+        StorageManager storage(config.get_string("db_path", "/data/gateway.db"));
+        storage.init();
 
-    ModbusCollector modbus;
-    modbus.init(config.get()["modbus"]);
+        ModbusCollector modbus;
+        if (config.get().contains("modbus")) {
+            modbus.init(config.get()["modbus"]);
+        }
 
-    CanCollector can;
-    can.init(config.get()["can"]["interface"]);
+        CanCollector can;
+        if (config.get().contains("can") && config.get()["can"].contains("interface")) {
+            can.init(config.get()["can"]["interface"]);
+        }
 
-    MqttClient mqtt;
-    mqtt.connect(
-        config.get()["mqtt"]["broker_host"],
-        config.get()["mqtt"]["broker_port"],
-        config.get()["mqtt"]["client_id"]
-    );
+        MqttClient mqtt;
+        if (config.get().contains("mqtt")) {
+            mqtt.connect(
+                config.get()["mqtt"].value("broker_host", "127.0.0.1"),
+                config.get()["mqtt"].value("broker_port", 1883),
+                config.get()["mqtt"].value("client_id", "iiot-gateway-001")
+            );
+        }
 
 #ifdef HAVE_SYSTEMD
-    sd_notify(0, "READY=1");
+        sd_notify(0, "READY=1");
 #endif
+
 
     while (g_running) {
         nlohmann::json mb_data = modbus.poll_data();
