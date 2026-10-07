@@ -23,11 +23,13 @@
     ]
   },
   "mqtt": {
-    "broker_host": "127.0.0.1",
+    "broker_host": "10.0.2.2",
     "broker_port": 1883,
     "client_id": "iiot-gateway-001",
-    "telemetry_topic": "gateway/gw-arm-001/telemetry",
-    "command_topic": "gateway/gw-arm-001/command",
+    "username": "",
+    "password": "",
+    "telemetry_topic": "v1/devices/me/telemetry",
+    "command_topic": "v1/devices/me/rpc/request/+",
     "use_tls": false
   },
   "storage": {

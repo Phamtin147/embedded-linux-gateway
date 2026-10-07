@@ -10,6 +10,7 @@ find_package(PkgConfig REQUIRED)
 pkg_check_modules(MODBUS REQUIRED libmodbus)
 pkg_check_modules(SQLITE3 REQUIRED sqlite3)
 find_package(nlohmann_json REQUIRED)
+find_package(PahoMqttCpp REQUIRED)
 
 # Threads and Systemd (for sd_notify watchdog)
 find_package(Threads REQUIRED)
@@ -38,6 +39,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     ${MODBUS_LIBRARIES}
     ${SQLITE3_LIBRARIES}
     nlohmann_json::nlohmann_json
+    PahoMqttCpp::paho-mqttpp3
 )
 
 if(SYSTEMD_LIB)
